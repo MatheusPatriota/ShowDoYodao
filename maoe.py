@@ -78,15 +78,15 @@ def quantia(acertos):
         print("Valendo R$ 1 milhão de Reais ")
 
 # abertura de arquivos
-p1 = open("Perguntas/perguntas.txt","r")
-p2 = open("Perguntas/perguntas2.txt","r")
-p3 = open("Perguntas/perguntas3.txt","r")
-a1 = open("Alternativas/alternativas.txt","r")
-a2 = open("Alternativas/alternativas2.txt","r")
-a3 = open("Alternativas/alternativas3.txt","r")
-r1 = open("Respostas/respostas.txt","r")
-r2 = open("Respostas/respostas2.txt","r")
-r3 = open("Respostas/respostas3.txt","r")
+p1 = open("Perguntas/perguntas.txt","r",encoding="utf8")
+p2 = open("Perguntas/perguntas2.txt","r",encoding="utf8")
+p3 = open("Perguntas/perguntas3.txt","r",encoding="utf8")
+a1 = open("Alternativas/alternativas.txt","r",encoding="utf8")
+a2 = open("Alternativas/alternativas2.txt","r",encoding="utf8")
+a3 = open("Alternativas/alternativas3.txt","r",encoding="utf8")
+r1 = open("Respostas/respostas.txt","r",encoding="utf8")
+r2 = open("Respostas/respostas2.txt","r",encoding="utf8")
+r3 = open("Respostas/respostas3.txt","r",encoding="utf8")
 
 
 
@@ -128,7 +128,7 @@ while True:
             quantia(pontuacao+1)
             print()
             print(i)
-            print("Alternarivas: ")
+            print("Alternativas: ")
             #exbibindo alternativas
             for j in range(com,fim):
                 print(cont,"-",alternativas[j])
