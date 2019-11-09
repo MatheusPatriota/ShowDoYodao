@@ -138,7 +138,7 @@ while True:
             resposta = input("Informe a resposta do participante: ")
             if resposta == respostas[contagem]:
                 pontuacao += 1
-                print("Acertar você consiguiu")
+                print("Acertar você conseguiu!")
                 print("Yoda Orgulhoso está!")
                 com += 4
                 fim += 4
