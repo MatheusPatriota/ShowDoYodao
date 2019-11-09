@@ -94,13 +94,6 @@ r3 = open("Respostas/respostas3.txt","r")
 # lista com todas os arquivos de perguntas, alternativas e respostas 
 opcoesPergutas =  [(removeQuebraLinha(a1.readlines()),removeQuebraLinha(p1.readlines()),removeQuebraLinha(r1.readlines())),(removeQuebraLinha(a2.readlines()),removeQuebraLinha(p2.readlines()),removeQuebraLinha(r2.readlines())),(removeQuebraLinha(a3.readlines()),removeQuebraLinha(p3.readlines()),removeQuebraLinha(r3.readlines()))]
 
-numeroSortado =random.randint(0,2)
-
-perguntas = opcoesPergutas[numeroSortado][0]
-alternativas = opcoesPergutas[numeroSortado][1]
-respostas = opcoesPergutas[numeroSortado][2]
-
-
 
 s = open("participantes.txt","w")
 
@@ -118,11 +111,16 @@ while True:
     if sair.lower() == "nao":
         break
     else:
+        numeroSortado =random.randint(0,2)
+        perguntas = opcoesPergutas[numeroSortado][1]
+        alternativas = opcoesPergutas[numeroSortado][0]
+        respostas = opcoesPergutas[numeroSortado][2]
         pontuacao = 0
         contagem = 0
         com = 0
         fim = 4
         participante = input("Informe o nome do participante: ")
+        
         #pegando pergunta a pergunta 
         for i in perguntas:
             cont = 1
