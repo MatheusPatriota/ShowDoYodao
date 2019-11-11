@@ -1,8 +1,8 @@
-# Alunos: Matheus da Silva Coimbra Patriota
-#         Clênio Borges Barboza Filho
+# Aluno: Matheus da Silva Coimbra Patriota
+#        Clênio Borges Barboza Filho
 # Curso: Engenharia de Software
 # Matricula: 20192EWBJ0027
-#            20192EWBJ0221
+#            20192EWBJ02
 
 # O programa consiste em três rodadas e uma pergunta final:
 # a primeira contém 5 perguntas, cada uma valendo mil reais cumulativos.
@@ -41,43 +41,77 @@ def removeQuebraLinha(lista):
         lista[i] = lista[i].replace('\n',"")
     return lista
 
-def quantia(acertos):
+def quantia(acertos,condicao):
+    valor = "0"
     if acertos == 1:
-        print("Primeira Rodada")
-        print("Valendo R$ 1000 reais ")
+        if condicao == 'n':
+            print("Primeira Rodada")
+            print("Valendo R$ 1000 reais ")
+        valor = "1.000"
     elif acertos == 2:
-        print("Valendo R$ 2000 reais ")
+        if condicao == 'n':
+            print("Valendo R$ 2000 reais ")
+        valor = "2.000"
     elif acertos == 3:
-        print("Valendo R$ 3000 reais ")
+        if condicao == 'n':
+            print("Valendo R$ 3000 reais ")
+        valor = "3.000"
     elif acertos == 4:
-        print("Valendo R$ 4000 reais ")
+        if condicao == 'n':
+            print("Valendo R$ 4000 reais ")
+        valor = "4.000"
     elif acertos == 5:
-        print("Valendo R$ 5000 reais ")
+        if condicao == 'n':
+            print("Valendo R$ 5000 reais ")
+        valor = "5.000"
     elif acertos == 6:
-        print("Segunda Rodada")
-        print("Valendo R$ 10 mil reais ")
+        if condicao == 'n':
+            print("Segunda Rodada")
+            print("Valendo R$ 10 mil reais ")
+        valor = "10.000"
     elif acertos == 7:
-        print("Valendo R$ 20 mil reais ")
+        if condicao == 'n':
+            print("Valendo R$ 20 mil reais ")
+        valor = "20.000"
     elif acertos == 8:
-        print("Valendo R$ 30 mil reais ")
+        if condicao == 'n':
+            print("Valendo R$ 30 mil reais ")
+        valor = "30.000"
     elif acertos == 9:
-        print("Valendo R$ 40 mil reais ")
+        if condicao == 'n':
+            print("Valendo R$ 40 mil reais ")
+        valor = "40.000"
     elif acertos == 10:
-        print("Valendo R$ 50 mil reais ")
+        if condicao == 'n':
+            print("Valendo R$ 50 mil reais ")
+        valor = "50.000"
     elif acertos == 11:
-        print("Terceira Rodada")
-        print("Valendo R$ 100 mil reais ")
+        if condicao == 'n':
+            print("Terceira Rodada")
+            print("Valendo R$ 100 mil reais ")
+        valor = "100.000"
     elif acertos == 12:
-        print("Valendo R$ 200 mil reais ")
+        if condicao == 'n':
+            print("Valendo R$ 200 mil reais ")
+        valor = "200.000"
     elif acertos == 13:
-        print("Valendo R$ 300 mil reais ")
+        if condicao == 'n':
+            print("Valendo R$ 300 mil reais ")
+        valor = "300.000"
     elif acertos == 14:
-        print("Valendo R$ 400 mil reais ")
+        if condicao == 'n':
+            print("Valendo R$ 400 mil reais ")
+        valor = "400.000"
     elif acertos == 15:
-        print("Valendo R$ 500 mil reais ")
+        if condicao == 'n':
+            print("Valendo R$ 500 mil reais ")
+        valor = "500.000"
     elif acertos == 16:
-        print("Pergunta Final")
-        print("Valendo R$ 1 milhão de Reais ")
+        if condicao == 'n':
+            print("Pergunta Final")
+            print("Valendo R$ 1 milhão de Reais ")
+        valor = "1.000.000"
+    return valor
 
 # abertura de arquivos
 p1 = open("Perguntas/perguntas.txt","r",encoding="utf8")
@@ -102,7 +136,7 @@ s = open("participantes.txt","w")
 # variaveis
 sair = "sim"
 erros = 0
-
+valorGanho = "0"
 contagem = 0
 com = 0
 fim = 4
@@ -113,6 +147,7 @@ while True:
     if sair.lower() == "nao":
         break
     else:
+        valorGanho = "0"
         numeroSortado =random.randint(0,2)
         perguntas = opcoesPergutas[numeroSortado][1]
         alternativas = opcoesPergutas[numeroSortado][0]
@@ -127,7 +162,7 @@ while True:
         for i in perguntas:
             cont = 1
             print()
-            quantia(pontuacao+1)
+            quantia(pontuacao+1,'n')
             print()
             print(i)
             print("Alternativas: ")
@@ -135,17 +170,47 @@ while True:
             for j in range(com,fim):
                 print(cont,"-",alternativas[j])
                 cont +=1
-            resposta = input("Informe a resposta do participante: ")
-            if resposta == respostas[contagem]:
-                pontuacao += 1
-                print("Acertar você conseguiu!")
-                print("Yoda Orgulhoso está!")
-                com += 4
-                fim += 4
-                contagem += 1
-            else:
-                print("Errou")
+            print()
+            print("Deseja")
+            print("1 - Tentar")
+            print("2 - Parar")
+            opcao = input("Escolha sua ação: ")
+
+            # tratamento de opcao invalida
+            while int(opcao) < 1 and  int(opcao)> 2:
+                print()
+                print("Opção inválida, tente novamente!")
+                opcao = input("Escolha sua ação: ")
+
+            if opcao == '1':        
+                resposta = input("Informe a resposta do participante: ")
+                #    tratamento de resposta invalida
+                while int(resposta) < 1 or int(resposta) > 4:
+                    print("Reposta Invalida, tente Novamente!")
+                    print()
+                    resposta = input("Informe a resposta do participante: ")
+                
+                if resposta == respostas[contagem]:
+                    print()
+                    print("Acertar você conseguiu!")
+                    print("Yoda Orgulhoso está!")
+                    print()
+
+                    pontuacao += 1
+                    valorGanho = quantia(pontuacao,'s')
+                    com += 4
+                    fim += 4
+                    contagem += 1
+                else:
+                    print("Errouuuuuuuuuuuu")
+                    valorGanho = str(int(quantia(pontuacao,'s'))/2)
+                    print("O valor Total ganho por {:} foi de {:} ".format(participante,valorGanho))
+                    break
+            elif opcao == '2':
+                print("Você decidiu por parar")
+                print("O valor Total ganho por {:} foi de {:} reais".format(participante,valorGanho))
                 break
+
     s.write(participante + " " + str(pontuacao) + "\n ")
     sair = input("Deseja Continuar jogando (sim ou nao)? ")
 
@@ -176,14 +241,17 @@ while len(participantes) != 0:
     del participantes[indiceMaior-1]
 
 
+# escrevendo os participantes ordenados
 so = open("participantesOrdenados.txt","w")
 for  i in participantesOrdenados:
     so.write(i + "\n")
 so.close()
 
+# abrindo arquivo de participantes ordenados e removendo os \n
 so = open("participantesOrdenados.txt","r")
 participantesOrdenados = removeQuebraLinha(so.readlines())
 
+# exibindo participantes ordenados ao final do jogo
 print("Pontuação Final dos Participantes: ")
 for linha in participantesOrdenados:
     print(linha + " Pontos")
