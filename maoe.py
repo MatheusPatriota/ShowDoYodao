@@ -2,7 +2,7 @@
 #        Clênio Borges Barboza Filho
 # Curso: Engenharia de Software
 # Matricula: 20192EWBJ0027
-#            20192EWBJ02
+#            20192EWBJ0221
 
 # O programa consiste em três rodadas e uma pergunta final:
 # a primeira contém 5 perguntas, cada uma valendo mil reais cumulativos.
