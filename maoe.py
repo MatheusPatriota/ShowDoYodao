@@ -133,12 +133,10 @@ for i in perguntas:
 for indice,linha in enumerate(aux):
     aux[indice] = removeQuebraLinha(linha)
 
-
 perguntasFaceis = []
 perguntasDificeis = []
 perguntasMedias = []
 perguntasFinais = []
-
 
 # encontra e insere as perguntas de acordo com seu grau de dificuladade
 for i in aux:
@@ -252,7 +250,8 @@ while True:
                     contagem += 1
                 else:
                     print("Errouuuuuuuuuuuu")
-                    valorGanho = str(float(quantia(pontuacao,'s'))/2)
+                    # valorGanho = str(float(quantia(pontuacao,'s'))/2)
+                    valorGanho = (float(valorGanho)/2)*1000
                     print("O valor Total ganho por {:} foi de {:} ".format(participante,valorGanho))
                     break
             elif opcao == '2':
