@@ -1,0 +1,7 @@
+0
+Quem é o primeiro substituto do Presidente?
+Ministro
+Vice-presidente
+Deputado
+Senador
+2

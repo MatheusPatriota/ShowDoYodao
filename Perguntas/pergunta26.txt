@@ -1,0 +1,7 @@
+2
+Qual a velocidade da luz?
+300 000 000 metros por segundo (m/s)
+150 000 000 metros por segundo (m/s)
+199 792 458 metros por segundo (m/s)
+299 792 458 metros por segundo (m/s)
+4

@@ -1,0 +1,7 @@
+1
+Qual o coletivo de cães?
+Matilha
+Manada
+Cardume
+Rebanho
+1
