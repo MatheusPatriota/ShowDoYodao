@@ -1,0 +1,7 @@
+2
+Qual o menor país do mundo?
+China
+Cuba
+Vaticano
+Equador
+3

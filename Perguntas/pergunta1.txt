@@ -1,0 +1,7 @@
+0
+Qual a capital do Brasil?
+Argentina
+Rio de Janeiro
+Caruaru
+Brasília
+4

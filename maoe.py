@@ -1,4 +1,4 @@
-# Aluno: Matheus da Silva Coimbra Patriota
+# Alunos: Matheus da Silva Coimbra Patriota
 #        Clênio Borges Barboza Filho
 # Curso: Engenharia de Software
 # Matricula: 20192EWBJ0027
@@ -34,8 +34,9 @@
 # 16	R$ 1 milhão	R$ 500 mil	R$ 0
 
 import  random
+import os
 
-# [(x,y,z),(x,y,z),(x,y,z)]
+
 def removeQuebraLinha(lista):   
     for i in range(len(lista)):
         lista[i] = lista[i].replace('\n',"")
@@ -113,22 +114,42 @@ def quantia(acertos,condicao):
         valor = "1.000.000"
     return valor
 
+def sorteiaQuestoes(lista1,lista2):
+    for i in range(5):
+            selecionado = random.choice(lista1)
+            while selecionado in lista2:
+                selecionado = random.choice(lista1)
+            lista2.append(selecionado)
+
 # abertura de arquivos
-p1 = open("Perguntas/perguntas.txt","r",encoding="utf8")
-p2 = open("Perguntas/perguntas2.txt","r",encoding="utf8")
-p3 = open("Perguntas/perguntas3.txt","r",encoding="utf8")
-a1 = open("Alternativas/alternativas.txt","r",encoding="utf8")
-a2 = open("Alternativas/alternativas2.txt","r",encoding="utf8")
-a3 = open("Alternativas/alternativas3.txt","r",encoding="utf8")
-r1 = open("Respostas/respostas.txt","r",encoding="utf8")
-r2 = open("Respostas/respostas2.txt","r",encoding="utf8")
-r3 = open("Respostas/respostas3.txt","r",encoding="utf8")
+perguntas = os.listdir('Perguntas')
+aux = []
+
+for i in perguntas:
+    arquivo = open('Perguntas/'+i,"r")
+    aux.append(arquivo.readlines())
 
 
+for indice,linha in enumerate(aux):
+    aux[indice] = removeQuebraLinha(linha)
 
-# sorteio arquvios de Perguntas
-# lista com todas os arquivos de perguntas, alternativas e respostas 
-opcoesPergutas =  [(removeQuebraLinha(a1.readlines()),removeQuebraLinha(p1.readlines()),removeQuebraLinha(r1.readlines())),(removeQuebraLinha(a2.readlines()),removeQuebraLinha(p2.readlines()),removeQuebraLinha(r2.readlines())),(removeQuebraLinha(a3.readlines()),removeQuebraLinha(p3.readlines()),removeQuebraLinha(r3.readlines()))]
+
+perguntasFaceis = []
+perguntasDificeis = []
+perguntasMedias = []
+perguntasFinais = []
+
+
+# encontra e insere as perguntas de acordo com seu grau de dificuladade
+for i in aux:
+    if i[0] == '0':
+        perguntasFaceis.append(i)
+    elif i[0] == '1':
+        perguntasMedias.append(i)
+    elif i[0] == '2':
+        perguntasDificeis.append(i)
+    else:
+        perguntasFinais.append(i)
 
 
 s = open("participantes.txt","w")
@@ -137,9 +158,6 @@ s = open("participantes.txt","w")
 sair = "sim"
 erros = 0
 valorGanho = "0"
-contagem = 0
-com = 0
-fim = 4
 
 print("Bem vindo ao Yoda do Milhão")
 
@@ -147,28 +165,61 @@ while True:
     if sair.lower() == "nao":
         break
     else:
+
+        # sorteio arquvios de Perguntas
+        # lista com todas os arquivos de perguntas, alternativas e respostas 
+
+
+        perguntasFaceisSelecionadas = []
+        perguntasDificeisSelecionadas = []
+        perguntasMediasSelecionadas = []
+        perguntasFinalSelecionada = []
+
+        sorteiaQuestoes(perguntasFaceis,perguntasFaceisSelecionadas)
+        sorteiaQuestoes(perguntasMedias,perguntasMediasSelecionadas)
+        sorteiaQuestoes(perguntasDificeis,perguntasDificeisSelecionadas)
+        perguntasFinalSelecionada.append(random.choice(perguntasFinais))
+
         valorGanho = "0"
         numeroSortado =random.randint(0,2)
-        perguntas = opcoesPergutas[numeroSortado][1]
-        alternativas = opcoesPergutas[numeroSortado][0]
-        respostas = opcoesPergutas[numeroSortado][2]
         pontuacao = 0
         contagem = 0
-        com = 0
-        fim = 4
         participante = input("Informe o nome do participante: ")
-        
-        #pegando pergunta a pergunta 
-        for i in perguntas:
+        for i in range(16):
+
+            if i == 0 or i == 5 or i == 10 or i == 15 or i == 16:
+                apontador = 0
+                
+            if i  >= 0 and i < 5:
+                pergunta = perguntasFaceisSelecionadas[apontador][1]
+                alternativas = perguntasFaceisSelecionadas[apontador][2:6]
+                resposta = perguntasFaceisSelecionadas[apontador][6]
+                del(perguntasFaceisSelecionadas[apontador])
+            elif i >= 5 and i < 10:
+                pergunta = perguntasMediasSelecionadas[apontador][1]
+                alternativas = perguntasMediasSelecionadas[apontador][2:6]
+                resposta = perguntasMediasSelecionadas[apontador][6]
+                del(perguntasMediasSelecionadas[apontador])
+            elif i >= 10 and i < 15:
+                pergunta = perguntasDificeisSelecionadas[apontador][1]
+                alternativas = perguntasDificeisSelecionadas[apontador][2:6]
+                resposta = perguntasDificeisSelecionadas[apontador][6]
+                del(perguntasDificeisSelecionadas[apontador])
+            else:
+                pergunta = perguntasFinalSelecionada[apontador][1]
+                alternativas = perguntasFinalSelecionada[apontador][2:6]
+                resposta = perguntasFinalSelecionada[apontador][6]
+                del(perguntasFinalSelecionada[apontador])
+            #pegando pergunta a pergunta 
             cont = 1
             print()
             quantia(pontuacao+1,'n')
             print()
-            print(i)
+            print(pergunta)
             print("Alternativas: ")
             #exbibindo alternativas
-            for j in range(com,fim):
-                print(cont,"-",alternativas[j])
+            for j in alternativas:
+                print(cont," - ",j)
                 cont +=1
             print()
             print("Deseja")
@@ -177,20 +228,20 @@ while True:
             opcao = input("Escolha sua ação: ")
 
             # tratamento de opcao invalida
-            while int(opcao) < 1 and  int(opcao)> 2:
+            while opcao != '1' and opcao != '2':
                 print()
                 print("Opção inválida, tente novamente!")
                 opcao = input("Escolha sua ação: ")
 
             if opcao == '1':        
-                resposta = input("Informe a resposta do participante: ")
+                resp = input("Informe a resposta do participante: ")
                 #    tratamento de resposta invalida
-                while int(resposta) < 1 or int(resposta) > 4:
+                while resp != '1' and resp != '2' and resp != '3' and resp != '4':
                     print("Reposta Invalida, tente Novamente!")
                     print()
                     resposta = input("Informe a resposta do participante: ")
                 
-                if resposta == respostas[contagem]:
+                if resp == resposta:
                     print()
                     print("Acertar você conseguiu!")
                     print("Yoda Orgulhoso está!")
@@ -198,12 +249,10 @@ while True:
 
                     pontuacao += 1
                     valorGanho = quantia(pontuacao,'s')
-                    com += 4
-                    fim += 4
                     contagem += 1
                 else:
                     print("Errouuuuuuuuuuuu")
-                    valorGanho = str(int(quantia(pontuacao,'s'))/2)
+                    valorGanho = str(float(quantia(pontuacao,'s'))/2)
                     print("O valor Total ganho por {:} foi de {:} ".format(participante,valorGanho))
                     break
             elif opcao == '2':
@@ -257,13 +306,4 @@ for linha in participantesOrdenados:
     print(linha + " Pontos")
 
 so.close()    
-p1.close()
-p2.close()
-p3.close()
-a1.close()
-a2.close()
-a3.close()
-r1.close()
-r2.close()
-r3.close()
 s.close() 
