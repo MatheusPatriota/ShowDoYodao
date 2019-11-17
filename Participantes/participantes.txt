@@ -11,3 +11,5 @@
  bolsonabo 0
  outono 0
  janaina 8
+ Clenio 5
+ Meivis 0

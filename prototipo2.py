@@ -1,3 +1,9 @@
+# Alunos: Matheus da Silva Coimbra Patriota
+#        Clênio Borges Barboza Filho
+# Curso: Engenharia de Software
+# Matricula: 20192EWBJ0027
+#            20192EWBJ0221
+
 from tkinter import *
 from future.moves.tkinter import scrolledtext
 from PIL import Image, ImageTk
@@ -60,7 +66,7 @@ class Interface:
             lista[i] = lista[i].replace('\n',"")
         return lista
 
-    #  ================================== Sortear as questões ==============================
+    #  ================================== Sortear as questões ==================================================
     def sorteiaQuestoes(self, lista1,lista2):
         for i in range(5):
             selecionado = random.choice(lista1)
@@ -68,18 +74,22 @@ class Interface:
                 selecionado = random.choice(lista1)
             lista2.append(selecionado)
 
+    # ============================================= Pagina Principal ============================================
     def __init__(self,tela):
-        
+
+        #  dando play na trilha sonora
         pygame.mixer.music.load("Audios/trilha.mp3")
         pygame.mixer.music.play()
         pygame.mixer.music.set_volume(1)
         
+        # abrindo o arquivo participantesOrdenados para pegar a maior pontuacao
         op = open('Participantes/participantesOrdenados.txt','r')
         op = op.readlines()
         op = op[0].split("-")
 
         self.logicaSorteioPerguntas()
 
+        # variaveis globais
         self.acertos = 0
         self.maiorPontuacao = int(op[1])
         self.pontuacao = 0
@@ -91,34 +101,39 @@ class Interface:
         self.frame4 = Frame(tela)
         self.frame5 = Frame(tela)
        
+        # mudanca de fundo dos frames
         self.frame1['bg'] = "#051023"
         self.frame2['bg'] = "#051023"
         self.frame3['bg'] = "#051023"
         self.frame4['bg'] = "#051023"
         self.frame5['bg'] = "#051023"
 
+        # insercao dos frames na janela
         self.frame1.pack()
         self.frame2.pack()
         self.frame3.pack()
         self.frame4.pack()
         self.frame5.pack()
 
-        
+        # carregando a logo 
         image = Image.open("Imagens/logo.png")
         image = image.resize((400, 250), Image.ANTIALIAS)
 
         photo = ImageTk.PhotoImage(image)
         
+        # label para representar a logo do jogo
         self.label = Label(self.frame1, image=photo)
         self.label.image = photo
         self.label.grid(row=2, column=0)
         self.label.pack(padx=10,pady=10)
        
+        # botoes da pagina inicial do jogo
         self.btJogar = Button(self.frame2,text="Jogar",command=self.particpante)
         self.btIntrucoes = Button(self.frame3,text="Instruções", command=self.instrucoes)
         self.btRank = Button(self.frame4,text="Rank", command=self.ranking)
         self.btSair = Button(self.frame5,text="Sair",command= self.sair)
 
+        # colocando os botoes na janela, setando espacamento e tamanho
         self.btJogar.pack(padx=5, pady=7)
         self.btJogar["width"] = 10
         self.btIntrucoes.pack(padx=5, pady=7)
@@ -128,41 +143,49 @@ class Interface:
         self.btSair.pack(padx=5, pady=7)
         self.btSair["width"] =10
 
+    # ============================================= Sair do Programa=========================================
     def sair(self):
         self.telaInicial.destroy()
 
     # ============================================= Participante ============================================
 
     def particpante(self):
-
+        # destruindo a janela principal
         self.telaInicial.destroy()
 
+        # criando a janela de entrada para o participante
         self.telaParticipante = Tk()
         self.telaParticipante.title("Informe o nome do participante")
         self.telaParticipante["bg"] = "#051023"
 
+        # botao e formulario
         self.btEntrar = Button(self.telaParticipante, text='Entrar', command=self.pergunta)
         self.nomeParticipante = Entry(self.telaParticipante)
         
+        # colocando na janela do participante
         self.nomeParticipante.pack(padx=5,pady=5,side=LEFT)
         self.btEntrar.pack(padx=5,pady=5,side=LEFT)
         self.cond = True
 
+        # iniciando a janela
         self.telaParticipante.mainloop()
 
 
     # ============================================= Perguntas ==============================================
     def pergunta(self):
 
+        # checa se o nome do participante ja foi informado
         if self.cond == True:
             self.participante = self.nomeParticipante.get()
             self.telaParticipante.destroy()
             self.cond = False
 
+        # setado configuracoes da tela de pergunta
         self.telaPergunta = Tk()
         self.telaPergunta.title("Responda a Pergunta")
         self.telaPergunta["bg"] = "#051023"
         
+        # logica para pegar perguntas de acordo com o nivel
         if self.acertos== 0 or self.acertos== 5 or self.acertos== 10 or self.acertos== 15 or self.acertos== 16:
             self.apontador = 0
             
@@ -197,6 +220,7 @@ class Interface:
         self.btResponder = Button(self.telaPergunta,text="Responder",command=self.responder)
         # self.btParar = Button(self.telaPergunta,text="Parar")
 
+        # opcoes representadas por botoes Radio
         self.MODES = [
         (self.alternativas[0], "1"),
         (self.alternativas[1], "2"),
@@ -205,46 +229,60 @@ class Interface:
         ]
 
         self.v = StringVar()
-        self.v.set("A") # initialize
+        self.v.set("") # initialize
 
+        # inserindo alternativas nos botoes radio
         for text, mode in self.MODES:
             self.b = Radiobutton(self.telaPergunta, text=text,
                             variable=self.v, value=mode)
             self.b.pack(anchor=W)
 
+        # inserindo botao responder na tela
         self.btResponder.pack()
+        # iniciando janela
         self.telaPergunta.mainloop()
 
-
+    # ============================================= Checagem de validade de respota ============================================
     def responder(self):
+        # recebe a reposta do jogador
         self.resp = self.v.get()
+
+        # checa se ela eh correta ou nao
         if self.resp == self.resposta:
             self.acertou()
         else:
             self.errou()
 
-
+    # ============================================= Caso tenha acertado a Reposta ============================================
     def acertou(self):
-        
+
+        # play no efeito sonoro acertou 
         pygame.mixer.music.load("Audios/acertou.mp3")
         pygame.mixer.music.play()
         pygame.mixer.music.set_volume(1)
 
+        # atualizando variaveis de checagem para proximas perguntas
         self.acertos += 1
         self.pontuacao +=1
 
+        # caso ja tenha acertado 16 perguntas o programa deve parar
         if self.acertos == 16:
+            # abre o arquivo participantes para inserir novo participante
             arquivo = open('Participantes/participantes.txt', 'r') # Abra o arquivo (leitura)
             arquivoParticipante = arquivo.readlines()
-            arquivoParticipante.append(" " + self.participante + " " + str(self.pontuacao)+ "\n")   # insira seu conteúdo
+            arquivoParticipante.append(" " + self.participante + " " + str(self.pontuacao)+ "\n")
 
+            # insere novo participante no arquivo
             arquivo = open('Participantes/participantes.txt', 'w') # Abre novamente o arquivo (escrita)
             arquivo.writelines(arquivoParticipante)    # escreva o conteúdo criado anteriormente nele.
 
+            # salva o arquivo
             arquivo.close()
 
+            # chama a funcao para ordenar os participantes
             self.ordenaParticipantes()
 
+            # caso tenha quebrado o recorde de pontos, paticipante pode optar por foto
             if self.pontuacao >= self.maiorPontuacao:
                 result= tkmsg.askquestion(title='Você quebrou o Recorde!!', message='Deseja tirar uma foto?')
                 if result == 'yes':
@@ -262,6 +300,7 @@ class Interface:
             else:
                 self.telaPergunta.destroy()
 
+        # destroi a janela pergunta e chama uma nova pergunta
         self.telaPergunta.destroy()
         self.pergunta()
 
@@ -300,18 +339,22 @@ class Interface:
         else:
             self.telaPergunta.destroy()
             
-                
+    # =========================================== Ordena Participantes ============================================            
     def ordenaParticipantes(self):
+
+        # abre o arquivo para leitura
         s = open("Participantes/participantes.txt","r")
 
+        # criar uma lista com todos os participantes
         participantes = s.read()
         participantes = participantes.split(" ")
         participantes = self.removeQuebraLinha(participantes)
         participantesOrdenados = []
 
+        # remove espaco em branco gerado pelo codigo
         del participantes[0]
 
-
+        # enquanto houver participantes a serem lidos deve continuar a execucao
         while len(participantes) != 0:
             maior = 0
             indiceMaior = 0
@@ -320,25 +363,34 @@ class Interface:
                     if int(participantes[i]) >= maior :
                         maior = int(participantes[i])
                         indiceMaior = i
-            
+
+            # adiciona participante por ordem de pontuacao
             participantesOrdenados.append(participantes[indiceMaior-1] + " - " + participantes[indiceMaior]) 
+            
+            # deleta os participantes da lista para que nao haja repeticao 
             del participantes[indiceMaior]
             del participantes[indiceMaior-1]
 
 
         # escrevendo os participantes ordenados
         so = open("Participantes/participantesOrdenados.txt","w")
-        for  i in participantesOrdenados:
+        for i in participantesOrdenados:
             so.write(i + "\n")
 
+        # fecha aquivo para ser salvo
         so.close()  
-    # ============================================= Rank ===========================================
+
+
+    # ============================================= Exibir foto do Campeao ===========================================
     def exibeFotoCampeao(self):
+
+        # configuracao de janela
         self.ftc = Toplevel()
         self.ftc.title("Foto Campeão")
         self.ftc["bg"] = "#051023"
         self.ftc.geometry("700x500+200+200")
         
+        # leitura e exibicao da imagem
         self.image = Image.open("Imagens/Campeao.png")
         self.photo = ImageTk.PhotoImage(self.image)
         self.label = Label(self.ftc, image=self.photo)
@@ -346,10 +398,13 @@ class Interface:
         self.label.grid(row=2, column=0)
         self.label.pack()
 
+        # inicializacao da janela
         self.ftc.mainloop()
 
+    # ============================================= Funcao Ranking =====================================================
     def ranking(self):
         
+        # configuracoes da janela
         self.rankTk = Tk()
         self.rankTk.title("Ranking")
         self.rankTk["bg"] = "#051023"
@@ -363,29 +418,36 @@ class Interface:
         self.nomeCampeao = Label(self.rankTk)
         self.btCampeao = Button(self.rankTk,text="Visualizar Foto",command=self.exibeFotoCampeao)
 
+        # leitura e escrita dos participantes Ordenados
         self.so = open("Participantes/participantesOrdenados.txt","r")
         self.so = self.so.readlines()
         self.nc = self.so[0]
         self.nc = self.nc.split('-')
         self.nomeCampeao['text'] = self.nc[0]
 
+        # insercao dos participantes na textbox
         for i in self.so:
             self.textParticipantes.insert(INSERT,i)
         
+        # colocando elementos na tela de ranking
         self.textParticipantes.pack(padx=10, pady=0,side=LEFT)
         self.labelCampeao.pack(padx=5, pady=15,side=LEFT)
         self.nomeCampeao.pack(padx=5, pady=15,side=LEFT)
         self.btCampeao.pack()
         
+        # gerando janela ranking
         self.rankTk.mainloop()
 
 
     # ============================================= Instruções ===========================================
+    
     def instrucoes(self):  
-     
+        
+        # configuracoes da janela instrucoes
         self.instrucoesTk = Tk()
         self.instrucoesTk.title("Instruções")
         self.instrucoesTk["bg"] = "#051023"
+        self.instrucoesTk.geometry("700x500+200+200")
 
         # texto explicacao
         self.texto = scrolledtext.ScrolledText(self.instrucoesTk,width=70,height=7)
@@ -396,6 +458,7 @@ class Interface:
         self.texto.insert(INSERT, "A última pergunta vale R$ 1 milhão.") 
         self.texto.pack(padx=5, pady=15)
 
+        # texto de premiacao
         self.conteudoPremiacao = "        Acertar	 Parar	     Errar\n" + \
                             "1	    R$ 1 mil	R$ 1 mil	R$ 500\n" + \
                             "2	    R$ 2 mil	R$ 1 mil	R$ 500\n" + \
@@ -413,30 +476,30 @@ class Interface:
                             "14	    R$ 400 mil	R$ 300 mil	R$ 150 mil\n" + \
                             "15	    R$ 500 mil	R$ 400 mil	R$ 200 mil\n" + \
                             "16	    R$ 500 mil	R$ 400 mil	R$ 200 mil\n";
-                        
+
+        # inserindo texto premiacao na box de texto
         self.textoPremiacao = scrolledtext.ScrolledText(self.instrucoesTk,width=70,height=18)
         self.textoPremiacao.insert(INSERT,self.conteudoPremiacao)
 
+        # inserindo na tela de instrucoes
         self.textoPremiacao.pack(pady= 2)
 
-        self.instrucoesTk.geometry("700x500+200+200")
+        # gerando janela instrucoes
         self.instrucoesTk.mainloop()   
 
 
-    # =========================================== Tirar Foto =======================================
+    # =========================================== Chamada da Webcan para Foto =======================================
+    
     def tirarFotoCampeao(self, args):
 
+        # variaveis de armazenamento para foto
         self.camera_port = 0
-    
         self.nFrames = 30
-    
         self.camera = cv2.VideoCapture(self.camera_port)
-        
         self.file = "Imagens/Campeao.png"
-            
-        print ("Digite <ESC> para sair / <s> para Salvar")
-        
         self.emLoop= True
+        
+        print ("Digite <ESC> para sair / <s> para Salvar")
         
         while(self.emLoop):
         
@@ -454,9 +517,11 @@ class Interface:
         
         cv2.destroyAllWindows()
         self.camera.release()
+
         return 0
 
 
+# chamada do pygame e iniciando o jogo 
 pygame.init()
 tela = Tk()
 tela["bg"] = "#051023"
