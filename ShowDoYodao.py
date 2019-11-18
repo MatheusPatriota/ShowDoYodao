@@ -12,7 +12,7 @@ import os
 import cv2
 import time
 import sys
-import  random
+import random
 import tkinter.scrolledtext as tkst
 import tkinter.messagebox as tkmsg
 
@@ -25,7 +25,7 @@ class Interface:
         self.aux = []
 
         for i in self.perguntas:
-            self.arquivo = open('Perguntas/'+i,"r")
+            self.arquivo = open('Perguntas/'+i,"r",encoding="utf8")
             self.aux.append(self.arquivo.readlines())
 
 
@@ -83,7 +83,7 @@ class Interface:
         pygame.mixer.music.set_volume(1)
         
         # abrindo o arquivo participantesOrdenados para pegar a maior pontuacao
-        op = open('Participantes/participantesOrdenados.txt','r')
+        op = open('Participantes/participantesOrdenados.txt','r',encoding="utf8")
         op = op.readlines()
         
 
@@ -274,12 +274,12 @@ class Interface:
         # caso ja tenha acertado 16 perguntas o programa deve parar
         if self.acertos == 16:
             # abre o arquivo participantes para inserir novo participante
-            arquivo = open('Participantes/participantes.txt', 'r') # Abra o arquivo (leitura)
+            arquivo = open('Participantes/participantes.txt', 'r',encoding="utf8") # Abra o arquivo (leitura)
             arquivoParticipante = arquivo.readlines()
             arquivoParticipante.append(" " + self.participante + " " + str(self.pontuacao)+ "\n")
 
             # insere novo participante no arquivo
-            arquivo = open('Participantes/participantes.txt', 'w') # Abre novamente o arquivo (escrita)
+            arquivo = open('Participantes/participantes.txt', 'w',encoding="utf8") # Abre novamente o arquivo (escrita)
             arquivo.writelines(arquivoParticipante)    # escreva o conteúdo criado anteriormente nele.
 
             # salva o arquivo
@@ -300,7 +300,7 @@ class Interface:
                 self.telaPergunta.destroy()
                 tela = Tk()
                 tela["bg"] = "#051023"
-                tela.geometry("500x500+200+200")
+                tela.geometry("700x500+200+200")
                 Interface(tela)
                 tela.mainloop()
             else:
@@ -317,11 +317,11 @@ class Interface:
         pygame.mixer.music.play()
         pygame.mixer.music.set_volume(1)
 
-        arquivo = open('Participantes/participantes.txt', 'r') # Abra o arquivo (leitura)
+        arquivo = open('Participantes/participantes.txt', 'r',encoding="utf8") # Abra o arquivo (leitura)
         arquivoParticipante = arquivo.readlines()
         arquivoParticipante.append(" " + self.participante + " " + str(self.pontuacao)+ "\n")   # insira seu conteúdo
 
-        arquivo = open('Participantes/participantes.txt', 'w') # Abre novamente o arquivo (escrita)
+        arquivo = open('Participantes/participantes.txt', 'w',encoding="utf8") # Abre novamente o arquivo (escrita)
         arquivo.writelines(arquivoParticipante)    # escreva o conteúdo criado anteriormente nele.
 
         arquivo.close()
@@ -339,7 +339,7 @@ class Interface:
             self.telaPergunta.destroy()
             tela = Tk()
             tela["bg"] = "#051023"
-            tela.geometry("500x500+200+200")
+            tela.geometry("700x500+200+200")
             Interface(tela)
             tela.mainloop()
         else:
@@ -349,7 +349,7 @@ class Interface:
     def ordenaParticipantes(self):
 
         # abre o arquivo para leitura
-        s = open("Participantes/participantes.txt","r")
+        s = open("Participantes/participantes.txt","r",encoding="utf8")
 
         # criar uma lista com todos os participantes
         participantes = s.read()
@@ -425,7 +425,7 @@ class Interface:
         self.btCampeao = Button(self.rankTk,text="Visualizar Foto",command=self.exibeFotoCampeao)
 
         # leitura e escrita dos participantes Ordenados
-        self.so = open("Participantes/participantesOrdenados.txt","r")
+        self.so = open("Participantes/participantesOrdenados.txt","r",encoding="utf8")
         self.so = self.so.readlines()
         self.nc = self.so[0]
         self.nc = self.nc.split('-')
@@ -542,6 +542,6 @@ class Interface:
 pygame.init()
 tela = Tk()
 tela["bg"] = "#051023"
-tela.geometry("500x500+200+200")
+tela.geometry("700x500+200+200")
 Interface(tela)
 tela.mainloop()

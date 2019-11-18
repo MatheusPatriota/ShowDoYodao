@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 loli - 6
 Matheus - 5
 Teste1 - 3
+=======
+Clênio O bom - 16
+janaina - 8
+Clenio - 5
+>>>>>>> c785d9210bde0ab593c3b39a74c9a1a0ab7680b4
