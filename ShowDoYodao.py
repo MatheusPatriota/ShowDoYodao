@@ -85,13 +85,19 @@ class Interface:
         # abrindo o arquivo participantesOrdenados para pegar a maior pontuacao
         op = open('Participantes/participantesOrdenados.txt','r')
         op = op.readlines()
-        op = op[0].split("-")
+        
 
         self.logicaSorteioPerguntas()
 
         # variaveis globais
         self.acertos = 0
-        self.maiorPontuacao = int(op[1])
+        
+        if len(op) == 0:
+            self.maiorPontuacao = 0
+        else:
+            op = op[0].split("-")
+            self.maiorPontuacao = int(op[1])
+        
         self.pontuacao = 0
         self.telaInicial = tela
         self.telaInicial.title("Show do Yodão")
@@ -518,6 +524,17 @@ class Interface:
         cv2.destroyAllWindows()
         self.camera.release()
 
+        sairJogoCamera= tkmsg.askquestion(title='Deseja Jogar Novamente?', message='Confirma sair do programa?')
+        if sairJogoCamera == 'yes':
+            self.telaPergunta.destroy()
+            tela = Tk()
+            tela["bg"] = "#051023"
+            tela.geometry("500x500+200+200")
+            Interface(tela)
+            tela.mainloop()
+        else:
+            self.telaPergunta.destroy()
+            
         return 0
 
 
