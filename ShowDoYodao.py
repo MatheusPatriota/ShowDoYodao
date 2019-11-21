@@ -122,7 +122,7 @@ class Interface:
         self.frame5.pack()
 
         # carregando a logo 
-        image = Image.open("Imagens/logo.png")
+        image = Image.open("Imagens/logo.jpeg")
         image = image.resize((400, 250), Image.ANTIALIAS)
 
         photo = ImageTk.PhotoImage(image)
@@ -163,21 +163,43 @@ class Interface:
         self.telaParticipante = Tk()
         self.telaParticipante.title("Informe o nome do participante")
         self.telaParticipante["bg"] = "#051023"
+        self.telaParticipante.geometry("400x100")
 
         # botao e formulario
         self.btEntrar = Button(self.telaParticipante, text='Entrar', command=self.pergunta)
         self.nomeParticipante = Entry(self.telaParticipante)
         
         # colocando na janela do participante
-        self.nomeParticipante.pack(padx=5,pady=5,side=LEFT)
-        self.btEntrar.pack(padx=5,pady=5,side=LEFT)
+        self.nomeParticipante.pack(padx=5,pady=5)
+        self.btEntrar.pack(padx=5,pady=5)
         self.cond = True
 
         # iniciando a janela
         self.telaParticipante.mainloop()
 
+    
+    # ======================================= Contagem Regressiva =========================================
+    
+    def timer(self, validador = False, sec = None):
+        # setando o tempo do timer
+        if validador == False:
+            sec = 60
+        # quando chegar a 10s troca a cor do timer para vermelho
+        if sec  == 10:
+            self.time['fg'] = "red"
+        # timer chegando a 0
+        if sec == 0:
+            self.time['text'] = 'TEMPO ESGOTADO'
+            self.errou()
+        # contagem regressiva
+        else:
+            sec = sec - 1
+            self.time['text'] = sec
+            self.time.after(1000, lambda : self.timer(True,sec))
+        
 
     # ============================================= Perguntas ==============================================
+    
     def pergunta(self):
 
         # checa se o nome do participante ja foi informado
@@ -185,6 +207,7 @@ class Interface:
             self.participante = self.nomeParticipante.get()
             self.telaParticipante.destroy()
             self.cond = False
+
 
         # setado configuracoes da tela de pergunta
         self.telaPergunta = Tk()
@@ -221,7 +244,7 @@ class Interface:
         
         self.labelPergunta = Label(self.telaPergunta)
         self.labelPergunta['text'] = self.perg
-        self.labelPergunta.pack()
+        self.labelPergunta.pack(padx=5, pady=15)
 
         self.btResponder = Button(self.telaPergunta,text="Responder",command=self.responder)
         # self.btParar = Button(self.telaPergunta,text="Parar")
@@ -241,10 +264,16 @@ class Interface:
         for text, mode in self.MODES:
             self.b = Radiobutton(self.telaPergunta, text=text,
                             variable=self.v, value=mode)
-            self.b.pack(anchor=W)
+            self.b.pack(anchor=W,padx=5, pady=3)
+        
+        # criando a label para o timer
+        self.time = Label(self.telaPergunta, fg='green')
+        self.time.pack(padx=5, pady=15)
+        # colocando o timer na tela
+        self.timer()
 
         # inserindo botao responder na tela
-        self.btResponder.pack()
+        self.btResponder.pack(padx=5, pady=15)
         # iniciando janela
         self.telaPergunta.mainloop()
 
@@ -300,7 +329,7 @@ class Interface:
                 self.telaPergunta.destroy()
                 tela = Tk()
                 tela["bg"] = "#051023"
-                tela.geometry("700x500+200+200")
+                tela.geometry("700x500")
                 Interface(tela)
                 tela.mainloop()
             else:
@@ -334,12 +363,12 @@ class Interface:
                 sys.exit(self.tirarFotoCampeao(sys.argv))
 
         # ================== mensagem de saida do programa após fim do jogo ============================
-        result= tkmsg.askquestion(title='Deseja Jogar Novamente?', message='Confirma sair do programa?')
+        result= tkmsg.askquestion(title='Você Perdeu!!!', message='Deseja jogar novamente?')
         if result == 'yes':
             self.telaPergunta.destroy()
             tela = Tk()
             tela["bg"] = "#051023"
-            tela.geometry("700x500+200+200")
+            tela.geometry("700x500")
             Interface(tela)
             tela.mainloop()
         else:
@@ -394,7 +423,7 @@ class Interface:
         self.ftc = Toplevel()
         self.ftc.title("Foto Campeão")
         self.ftc["bg"] = "#051023"
-        self.ftc.geometry("700x500+200+200")
+        self.ftc.geometry("700x500")
         
         # leitura e exibicao da imagem
         self.image = Image.open("Imagens/Campeao.png")
@@ -414,7 +443,7 @@ class Interface:
         self.rankTk = Tk()
         self.rankTk.title("Ranking")
         self.rankTk["bg"] = "#051023"
-        self.rankTk.geometry("700x500+200+200")
+        self.rankTk.geometry("550x300")
 
         # participantes
         self.textParticipantes = scrolledtext.ScrolledText(self.rankTk,width=30,height=15)
@@ -439,7 +468,7 @@ class Interface:
         self.textParticipantes.pack(padx=10, pady=0,side=LEFT)
         self.labelCampeao.pack(padx=5, pady=15,side=LEFT)
         self.nomeCampeao.pack(padx=5, pady=15,side=LEFT)
-        self.btCampeao.pack()
+        self.btCampeao.pack(padx=5, pady=15,side=LEFT)
         
         # gerando janela ranking
         self.rankTk.mainloop()
@@ -453,7 +482,7 @@ class Interface:
         self.instrucoesTk = Tk()
         self.instrucoesTk.title("Instruções")
         self.instrucoesTk["bg"] = "#051023"
-        self.instrucoesTk.geometry("700x500+200+200")
+        self.instrucoesTk.geometry("700x500")
 
         # texto explicacao
         self.texto = scrolledtext.ScrolledText(self.instrucoesTk,width=70,height=7)
@@ -524,12 +553,12 @@ class Interface:
         cv2.destroyAllWindows()
         self.camera.release()
 
-        sairJogoCamera= tkmsg.askquestion(title='Deseja Jogar Novamente?', message='Confirma sair do programa?')
+        sairJogoCamera= tkmsg.askquestion(title='Deseja Jogar Novamente?', message='Iae Vamos jogar?')
         if sairJogoCamera == 'yes':
             self.telaPergunta.destroy()
             tela = Tk()
             tela["bg"] = "#051023"
-            tela.geometry("500x500+200+200")
+            tela.geometry("500x500")
             Interface(tela)
             tela.mainloop()
         else:
@@ -542,6 +571,6 @@ class Interface:
 pygame.init()
 tela = Tk()
 tela["bg"] = "#051023"
-tela.geometry("700x500+200+200")
+tela.geometry("700x500")
 Interface(tela)
 tela.mainloop()
