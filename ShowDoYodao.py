@@ -329,7 +329,7 @@ class Interface:
                 self.telaPergunta.destroy()
                 tela = Tk()
                 tela["bg"] = "#051023"
-                tela.geometry("700x500")
+                tela.geometry("600x500")
                 Interface(tela)
                 tela.mainloop()
             else:
@@ -571,6 +571,6 @@ class Interface:
 pygame.init()
 tela = Tk()
 tela["bg"] = "#051023"
-tela.geometry("700x500")
+tela.geometry("600x500")
 Interface(tela)
 tela.mainloop()
