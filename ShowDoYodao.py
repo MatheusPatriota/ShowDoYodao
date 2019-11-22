@@ -17,7 +17,41 @@ import tkinter.scrolledtext as tkst
 import tkinter.messagebox as tkmsg
 
 class Interface:
-
+    def quantia(self,acertos):
+        valor = "0"
+        if acertos == 1:
+            valor = "1.000"
+        elif acertos == 2:
+            valor = "2.000"
+        elif acertos == 3:
+            valor = "3.000"
+        elif acertos == 4:
+            valor = "4.000"
+        elif acertos == 5:
+            valor = "5.000"
+        elif acertos == 6:
+            valor = "10.000"
+        elif acertos == 7:
+            valor = "20.000"
+        elif acertos == 8:
+            valor = "30.000"
+        elif acertos == 9:
+            valor = "40.000"
+        elif acertos == 10:
+            valor = "50.000"
+        elif acertos == 11:
+            valor = "100.000"
+        elif acertos == 12:
+            valor = "200.000"
+        elif acertos == 13:
+            valor = "300.000"
+        elif acertos == 14:
+            valor = "400.000"
+        elif acertos == 15:
+            valor = "500.000"
+        elif acertos == 16:
+            valor = "1.000.000"
+        return valor
     # =============================== logica de sorteio de perguntas ==========================================
     def logicaSorteioPerguntas(self):   
 
@@ -271,12 +305,20 @@ class Interface:
         self.time.pack(padx=5, pady=15)
         # colocando o timer na tela
         self.timer()
+  # ===================================================== Total Acumulado ====================================================
+        self.labelAcumulado = Label(self.telaPergunta, text="Valor Acumulado: 0")
+        self.setaValorAcumulado()
+        self.labelAcumulado.pack()
+
 
         # inserindo botao responder na tela
         self.btResponder.pack(padx=5, pady=15)
         # iniciando janela
         self.telaPergunta.mainloop()
 
+    def setaValorAcumulado(self):
+        self.labelAcumulado['text'] = "Valor Acumulado: " + self.quantia(self.acertos+1) + " reais" 
+        
     # ============================================= Checagem de validade de respota ============================================
     def responder(self):
         # recebe a reposta do jogador
@@ -299,7 +341,7 @@ class Interface:
         # atualizando variaveis de checagem para proximas perguntas
         self.acertos += 1
         self.pontuacao +=1
-
+        
         # caso ja tenha acertado 16 perguntas o programa deve parar
         if self.acertos == 16:
             # abre o arquivo participantes para inserir novo participante
