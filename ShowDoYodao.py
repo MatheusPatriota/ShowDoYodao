@@ -17,6 +17,9 @@ import tkinter.scrolledtext as tkst
 import tkinter.messagebox as tkmsg
 
 class Interface:
+
+    # =============================== Retorno da Quantia acumulada ==========================================
+  
     def quantia(self,acertos):
         valor = "0"
         if acertos == 1:
@@ -52,6 +55,8 @@ class Interface:
         elif acertos == 16:
             valor = "1.000.000"
         return valor
+
+
     # =============================== logica de sorteio de perguntas ==========================================
     def logicaSorteioPerguntas(self):   
 
